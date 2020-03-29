@@ -5,11 +5,13 @@
 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) 2020, **Poster Presentation**
 
 |[Abstract](#abstract)|[Paper](#paper-arxiv)|[Code](#code-github)|[Dataset](#dataset)|[Results](#results)|[Acknowledgment](#acknowledgment)|
-
+#### Task view point settings 
 ![Pose](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/view_point.jpg)
-
+#### Three View to Isometric task 
 ![Three View to Iso task](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/Three_view_to_iso.jpg)
+#### Isometric to Pose task 
 ![Iso to pose task](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/Iso_to_pose.png)
+#### Pose to Isometric task 
 ![Pose to iso task](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/Pose_to_iso.jpg)
 
 ### Abstract
@@ -26,7 +28,7 @@ To cite our paper:
 ```
 
 ``` 
-### [Dataset (Google Drive]()
+### [Dataset (Google Drive)]()
 Please download dataset via google drive link. If you meet any problems, please contact [authors](https://ai4ce.github.io) for help. 
 
 ### Results
@@ -36,7 +38,4 @@ Please download dataset via google drive link. If you meet any problems, please 
 
 
 ### Acknowledgment
-<hr>
-<div id="visitormap">
-<script type="text/javascript" src="//ra.revolvermaps.com/0/0/7.js?i=04tbj6h3gzq&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;br=8&amp;ds=0" async="async"></script>
-</div>
+This project is done equally by [Wenyu Han](https://ai4ce.github.io) and Siyuan Xiang(https://ai4ce.github.io). Thank for the contributions made by Chenhui liu (Building website for collecting human performance data) and Ruoyu Wang(Code and paper modification) 
