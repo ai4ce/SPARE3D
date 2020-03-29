@@ -6,4 +6,4 @@ IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) 2020, **Po
 
 |[Abstract](#abstract)|[Paper](#paper-arxiv)|[Code](#code-github)|[Dataset](#dataset)|[Results](#results)|[Acknowledgment](#acknowledgment)|
 
-![Task overview](https://github.com/ai4ce/SPARE3D/docs/figs/Three_view_to_iso.jpg)
+![Task overview](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/Three_view_to_iso.jpg)
