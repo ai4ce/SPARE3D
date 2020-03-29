@@ -38,4 +38,4 @@ Please download dataset via google drive link. If you meet any problems, please 
 
 
 ### Acknowledgment
-This project is done equally by [Wenyu Han](https://ai4ce.github.io) and Siyuan Xiang(https://ai4ce.github.io). Thank for the contributions made by Chenhui liu (Building website for collecting human performance data) and Ruoyu Wang(Code and paper modification) 
+This project is done equally by [Wenyu Han](https://ai4ce.github.io) and [Siyuan Xiang](https://ai4ce.github.io). Thank for the contributions made by Chenhui liu (Building website for collecting human performance data) and Ruoyu Wang(Code and paper modification) 
