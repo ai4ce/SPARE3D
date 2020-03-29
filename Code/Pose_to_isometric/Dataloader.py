@@ -13,27 +13,29 @@ import cv2
 class P2I_BC_data(Dataset):
     def __init__(self, root_dir, transform=None):
         self.dic=sorted(os.listdir(root_dir))
+        self.dic.remove('answer.json')
         self.transform=transform
         self.root_dir=root_dir
+        with open(os.path.join(self.root_dir, 'answer.json'), 'r') as f:
+            self.answer = json.load(f)
     def __getitem__(self, idx):   
         if torch.is_tensor(idx):
             idx = idx.tolist()        
         input_dic = os.path.join(self.root_dir,
-                                self.dic[idx],"Dic3V")
+                                self.dic[idx])
        
         
-        output_dic = os.path.join(self.root_dir,
-                                self.dic[idx],"DicAns")
+        answer = self.answer[self.dic[idx]]
   
     
-        Front_img=self.convert_input(input_dic,"/*front.png")
-        Right_img=self.convert_input(input_dic,"/*right.png")
-        Top_img=self.convert_input(input_dic,"/*top.png")
+        Front_img=self.convert_input(input_dic,"/*f.png")
+        Right_img=self.convert_input(input_dic,"/*r.png")
+        Top_img=self.convert_input(input_dic,"/*t.png")
         Ans_1=self.convert_input(input_dic,"/0.png")
         Ans_2=self.convert_input(input_dic,"/1.png")
         Ans_3=self.convert_input(input_dic,"/2.png")
         Ans_4=self.convert_input(input_dic,"/3.png")
-        Label=self.convert_answer(output_dic)
+        Label=self.convert_answer(answer)
         View_vector=self.view_vector(input_dic)
         View=np.concatenate((Front_img,Right_img,Top_img),axis=2)
         input_1=np.moveaxis(np.concatenate((Ans_1,View),axis=2),-1,0)
@@ -56,27 +58,24 @@ class P2I_BC_data(Dataset):
         base=os.path.basename(a[0])
     
         index=base.replace(".txt","")
-        if index=="F_topleft":
+        if index=="pose_1":
             output=torch.tensor([1,0,0,0,0,0,0,0])
-        if index=="F_bottomleft":
+        if index=="pose_2":
             output=torch.tensor([0,1,0,0,0,0,0,0])
-        if index=="F_topright":
+        if index=="pose_3":
             output=torch.tensor([0,0,1,0,0,0,0,0])
-        if index=="F_bottomright":
+        if index=="pose_4":
             output=torch.tensor([0,0,0,1,0,0,0,0])
-        if index=="R_topleft":
+        if index=="pose_5":
             output=torch.tensor([0,0,0,0,1,0,0,0])
-        if index=="R_bottomleft":
+        if index=="pose_6":
             output=torch.tensor([0,0,0,0,0,1,0,0])
-        if index=="R_topright":
+        if index=="pose_7":
             output=torch.tensor([0,0,0,0,0,0,1,0])
-        if index=="R_bottomright":
+        if index=="pose_8":
             output=torch.tensor([0,0,0,0,0,0,0,1])
         return output
-    def convert_answer(self,Dic):
-        index=(sorted(os.listdir(Dic)))[0]
-        index=int(index.replace(".txt",""))
-
+    def convert_answer(self,index):
         if index==0:
             output=torch.tensor([1,0,0,0])
         if index==1:
@@ -93,27 +92,29 @@ class P2I_BC_data(Dataset):
 class P2I_ML_data(Dataset):
     def __init__(self, root_dir, transform=None):
         self.dic=sorted(os.listdir(root_dir))
+        self.dic.remove('answer.json')
         self.transform=transform
         self.root_dir=root_dir
+        with open(os.path.join(self.root_dir, 'answer.json'), 'r') as f:
+            self.answer = json.load(f)
     def __getitem__(self, idx):   
         if torch.is_tensor(idx):
             idx = idx.tolist()        
         input_dic = os.path.join(self.root_dir,
-                                self.dic[idx],"Dic3V")
+                                self.dic[idx])
        
         
-        output_dic = os.path.join(self.root_dir,
-                                self.dic[idx],"DicAns")
+        answer = self.answer[self.dic[idx]]
   
     
-        Front_img=self.convert_input(input_dic,"/*front.png")
-        Right_img=self.convert_input(input_dic,"/*right.png")
-        Top_img=self.convert_input(input_dic,"/*top.png")
+        Front_img=self.convert_input(input_dic,"/*f.png")
+        Right_img=self.convert_input(input_dic,"/*r.png")
+        Top_img=self.convert_input(input_dic,"/*t.png")
         Ans_1=self.convert_input(input_dic,"/0.png")
         Ans_2=self.convert_input(input_dic,"/1.png")
         Ans_3=self.convert_input(input_dic,"/2.png")
         Ans_4=self.convert_input(input_dic,"/3.png")
-        Label=self.convert_answer(output_dic)
+        Label=self.convert_answer(answer)
         View_vector=self.view_vector(input_dic)
         View=np.moveaxis((np.concatenate((Front_img,Right_img,Top_img),axis=2)),-1,0)
         input_1=np.moveaxis(Ans_1,-1,0)
@@ -136,27 +137,25 @@ class P2I_ML_data(Dataset):
         base=os.path.basename(a[0])
     
         index=base.replace(".txt","")
-        if index=="F_topleft":
+        if index=="pose_1":
             output=torch.tensor([1,0,0,0,0,0,0,0])
-        if index=="F_bottomleft":
+        if index=="pose_2":
             output=torch.tensor([0,1,0,0,0,0,0,0])
-        if index=="F_topright":
+        if index=="pose_3":
             output=torch.tensor([0,0,1,0,0,0,0,0])
-        if index=="F_bottomright":
+        if index=="pose_4":
             output=torch.tensor([0,0,0,1,0,0,0,0])
-        if index=="R_topleft":
+        if index=="pose_5":
             output=torch.tensor([0,0,0,0,1,0,0,0])
-        if index=="R_bottomleft":
+        if index=="pose_6":
             output=torch.tensor([0,0,0,0,0,1,0,0])
-        if index=="R_topright":
+        if index=="pose_7":
             output=torch.tensor([0,0,0,0,0,0,1,0])
-        if index=="R_bottomright":
+        if index=="pose_8":
             output=torch.tensor([0,0,0,0,0,0,0,1])
         return output
-    def convert_answer(self,Dic):
-        index=(sorted(os.listdir(Dic)))[0]
-        index=int(index.replace(".txt",""))
-
+    def convert_answer(self,index):
+        
         if index==0:
             output=torch.tensor([0])
         if index==1:
