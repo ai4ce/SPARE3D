@@ -48,7 +48,7 @@ def train_model():
     batch_acc =0
     data_transforms=False
     path=opt.Training_dataroot
-    train_data=P2I_ML_data(path,transform=False)
+    train_data=P2I_ML_data(path)
     data_train = torch.utils.data.DataLoader(train_data,batch_size=opt.batchSize, shuffle=True)
     batch_loss_list=[]
     task_5_model.train()
@@ -88,7 +88,7 @@ def Eval():
     epoch_eval_loss=0
     epoch_eval_acc =0
     path=opt.Validating_dataroot
-    eval_data=P2I_ML_data(path,transform=False)
+    eval_data=P2I_ML_data(path)
     data_eval = torch.utils.data.DataLoader(eval_data,batch_size=opt.batchSize, shuffle=True)
     with torch.no_grad():
         task_5_model.eval()
