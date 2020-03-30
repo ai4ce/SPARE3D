@@ -48,7 +48,7 @@ def train_model():
     batch_acc =0
     batch_loss_list=[]
     path=opt.Training_dataroot
-    train_data=I2P_data(path,transform=False)
+    train_data=I2P_data(path)
     data_train = torch.utils.data.DataLoader(train_data,batch_size=opt.batchSize, shuffle=True)
     task_4_model.train()
     for i, (Input,Label) in enumerate(data_train):
@@ -76,7 +76,7 @@ def Eval():
 
     data_transforms=False
     path=opt.Validating_dataroot
-    eval_data=I2P_data(path,transform=False)
+    eval_data=I2P_data(path)
     data_eval = torch.utils.data.DataLoader(eval_data,batch_size=opt.batchSize, shuffle=True)
     with torch.no_grad():
         task_4_model.eval()
