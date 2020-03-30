@@ -4,7 +4,7 @@
 
 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) 2020
 
-|[Abstract](#abstract)|[Paper](#paper-arxiv)|[Code](#code-github)|[Dataset](#dataset-GoogleDrive)|[Results](#results)|[Acknowledgment](#acknowledgment)|
+|[Abstract](#abstract)|[Paper](#paper-arxiv)|[Code](#code-github)|[Dataset](#dataset)|[Results](#results)|[Acknowledgment](#acknowledgment)|
 #### Task view point settings 
 ![Pose](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/view_point.jpg)
 #### Three View to Isometric task 
@@ -28,7 +28,7 @@ To cite our paper:
 ```
 
 ``` 
-### [Dataset (Google Drive)](https://drive.google.com/open?id=1Mi2KZyKAlUOGYRQTDz3E5nhiXY5GhUB2)
+### [Dataset](https://drive.google.com/open?id=1Mi2KZyKAlUOGYRQTDz3E5nhiXY5GhUB2)
 Please download dataset via google drive link. This google drive folder contains three zip files: Task_data.zip is for training baseline; CSG_model_step.zip contains 11149 CSG models; Total_view_data contains view drawings of all ABC and CSG models from 11 pose we define in the paper.   
 If you meet any problems, please contact [authors](https://ai4ce.github.io) for help. 
 
