@@ -11,9 +11,9 @@ import numpy as np
 import cv2
 
 class IVG_data(Dataset):
-    def __init__(self, root_dir):
+    def __init__(self, root_dir,transform=None):
         self.dic=sorted(os.listdir(root_dir))
-     
+        self.transform=transform
         self.root_dir=root_dir
     def __getitem__(self, idx):   
         if torch.is_tensor(idx):
@@ -40,6 +40,8 @@ class IVG_data(Dataset):
     def convert_input(self,Dic,name):
         file_name=glob.glob(Dic+name)
         img=cv2.imread(file_name[0])
+        if self.transform:
+            img=cv2.resize(img, (256,256))
         return (img/255)*2-1
     def convert_output(self,Dic,name):
         file_name=Dic+name
