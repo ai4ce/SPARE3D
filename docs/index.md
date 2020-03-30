@@ -4,7 +4,7 @@
 
 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) 2020
 
-|[Abstract](#abstract)|[Paper](#paper-arxiv)|[Code](#code-github)|[Dataset](#dataset-Google Drive)|[Results](#results)|[Acknowledgment](#acknowledgment)|
+|[Abstract](#abstract)|[Paper](#paper-arxiv)|[Code](#code-github)|[Dataset](#dataset-GoogleDrive)|[Results](#results)|[Acknowledgment](#acknowledgment)|
 #### Task view point settings 
 ![Pose](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/view_point.jpg)
 #### Three View to Isometric task 
