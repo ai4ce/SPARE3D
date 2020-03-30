@@ -1,8 +1,8 @@
 # SPARE3D: A Dataset for SPAtial REasoning on Three-View Line Drawings
 
-[**Wenyu Han** (NYU Tandon School of Engineering)](https://ai4ce.github.io), [**Siyuan Xiang** (NYU Tandon School of Engineering)](https://ai4ce.github.io)
+[**Wenyu Han** (NYU Tandon School of Engineering)](https://ai4ce.github.io), [**Siyuan Xiang** (NYU Tandon School of Engineering)](https://ai4ce.github.io),[**Chen Feng** (NYU Tandon School of Engineering)](https://ai4ce.github.io),[**Chenhui Liu** (NYU Tandon School of Engineering)](https://ai4ce.github.io),[**Ruoyu Wang** (NYU Tandon School of Engineering)](https://ai4ce.github.io)
 
-IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) 2020, **Poster Presentation**
+IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) 2020
 
 |[Abstract](#abstract)|[Paper](#paper-arxiv)|[Code](#code-github)|[Dataset](#dataset)|[Results](#results)|[Acknowledgment](#acknowledgment)|
 #### Task view point settings 
