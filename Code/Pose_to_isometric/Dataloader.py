@@ -11,10 +11,10 @@ import numpy as np
 import cv2
 
 class P2I_BC_data(Dataset):
-    def __init__(self, root_dir, transform=None):
+    def __init__(self, root_dir):
         self.dic=sorted(os.listdir(root_dir))
         self.dic.remove('answer.json')
-        self.transform=transform
+       
         self.root_dir=root_dir
         with open(os.path.join(self.root_dir, 'answer.json'), 'r') as f:
             self.answer = json.load(f)
@@ -49,8 +49,6 @@ class P2I_BC_data(Dataset):
     def convert_input(self,Dic,name):
         file_name=glob.glob(Dic+name)
         img=cv2.imread(file_name[0])
-        if self.transform:
-            img=self.transform(img)
         return img/255
     def view_vector(self,Dic):
         a=glob.glob(Dic+"/*.txt")
@@ -90,10 +88,10 @@ class P2I_BC_data(Dataset):
 
 
 class P2I_ML_data(Dataset):
-    def __init__(self, root_dir, transform=None):
+    def __init__(self, root_dir):
         self.dic=sorted(os.listdir(root_dir))
         self.dic.remove('answer.json')
-        self.transform=transform
+       
         self.root_dir=root_dir
         with open(os.path.join(self.root_dir, 'answer.json'), 'r') as f:
             self.answer = json.load(f)
@@ -128,8 +126,7 @@ class P2I_ML_data(Dataset):
     def convert_input(self,Dic,name):
         file_name=glob.glob(Dic+name)
         img=cv2.imread(file_name[0])
-        if self.transform:
-            img=self.transform(img)
+        
         return img/255
     def view_vector(self,Dic):
         a=glob.glob(Dic+"/*.txt")
