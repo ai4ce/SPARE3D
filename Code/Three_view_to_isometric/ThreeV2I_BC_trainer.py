@@ -48,7 +48,7 @@ def train_model():
     batch_acc =0
     batch_loss_list=[]
     path=opt.Training_dataroot
-    train_data=ThreeV2I_BC_data(path,transform=False)
+    train_data=ThreeV2I_BC_data(path)
     data_train = torch.utils.data.DataLoader(train_data,batch_size=opt.batchSize, shuffle=True)
     task_1_model.train()
     for i, (input_1,input_2,input_3,input_4,Label) in enumerate(data_train):
@@ -81,7 +81,7 @@ def Eval():
 
     data_transforms=False
     path=opt.Validating_dataroot
-    eval_data=ThreeV2I_BC_data(path,transform=False)
+    eval_data=ThreeV2I_BC_data(path)
     data_eval = torch.utils.data.DataLoader(eval_data,batch_size=opt.batchSize, shuffle=True)
     with torch.no_grad():
         task_1_model.eval()
