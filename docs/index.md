@@ -29,9 +29,10 @@ To cite our paper:
 
 ``` 
 ### [Dataset](https://drive.google.com/open?id=1Mi2KZyKAlUOGYRQTDz3E5nhiXY5GhUB2)
+```
 Please download dataset via google drive link. This google drive folder contains three zip files: Task_data.zip is for training baseline; CSG_model_step.zip contains 11149 CSG models; Total_view_data contains view drawings of all ABC and CSG models from 11 pose we define in the paper.   
 If you meet any problems, please contact [authors](https://ai4ce.github.io) for help. 
-
+```
 ### Results
 #### SPARE3D benchmark results of Three View to Isometric, Isometric to Pose, and Pose to Isometric tasks
 ![Baseline_barchart](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/baseline_barchart.PNG)
@@ -42,4 +43,6 @@ If you meet any problems, please contact [authors](https://ai4ce.github.io) for 
 
 
 ### Acknowledgment
+```
 This project is done equally by [Wenyu Han](https://ai4ce.github.io) and [Siyuan Xiang](https://ai4ce.github.io). Thank for the contributions made by Chenhui liu (Building website for collecting human performance data) and Ruoyu Wang(Code and paper modification) 
+```
