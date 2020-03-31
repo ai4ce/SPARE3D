@@ -72,10 +72,10 @@ year = {2020}
 ![Baseline_barchart](https://github.com/ai4ce/SPARE3D/raw/master/docs/figs/baseline_barchart.PNG)
 
 #### Isometric View Generation task testing samples
-![Isometric view generation result](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/Iso_view_generation.PNG)
+![Isometric view generation result](https://github.com/ai4ce/SPARE3D/raw/master/docs/figs/Iso_view_generation.PNG)
 
 #### Point Cloud Generation task testing samples
-![Point cloud generation result](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/point_cloud_generation.PNG)
+![Point cloud generation result](https://github.com/ai4ce/SPARE3D/raw/master/docs/figs/point_cloud_generation.PNG)
 
 
 ### Acknowledgment
