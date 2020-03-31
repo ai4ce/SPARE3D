@@ -10,7 +10,7 @@ IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) 2020
 #### Three View to Isometric task 
 ![Three View to Iso task](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/Three_view_to_iso.jpg)
 #### Isometric to Pose task 
-![Iso to pose task](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/Iso_to_pose.png)
+![Iso to pose task](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/Iso_to_pose.jpg)
 #### Pose to Isometric task 
 ![Pose to iso task](https://github.com/ai4ce/SPARE3D/blob/master/docs/figs/Pose_to_iso.jpg)
 
