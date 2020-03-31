@@ -41,7 +41,7 @@ Wenyu Han, Siyuan Xiang, Chenhui Liu, Ruoyu Wang, and Chen Feng,
 The IEEE Conference on Computer Vision and Pattern Recognition (CVPR), June, 2020.
 ``` 
 
-### [Paper (arXiv)]()
+### [Paper (arXiv)](https://github.com/ai4ce/SPARE3D/raw/master/docs/SPARE3D.pdf)
 To cite our paper:
 
 ```
