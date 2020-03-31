@@ -47,7 +47,7 @@ To cite our paper:
 ```
 @InProceedings{SPARE3D_CVPR_2020,
 author = {Han, Wenyu and Xiang, Siyuan and Liu, Chenhui and Wang, Ruoyu and Feng, Chen},
-title = {{SPARE3D}: A Dataset for {SPA}tial {RE}asoning on Three-View Line Drawings},
+title = { {SPARE3D}: A Dataset for {SPA}tial {RE}asoning on Three-View Line Drawings},
 booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
 month = {June},
 year = {2020}
