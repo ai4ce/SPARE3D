@@ -1,6 +1,6 @@
 # SPARE3D: A Dataset for SPAtial REasoning on Three-View Line Drawings
 
-[**Wenyu Han**](https://github.com/WenyuHan-LiNa), [**Siyuan Xiang**](https://www.linkedin.com/in/%E6%80%9D%E8%BF%9C-%E9%A1%B9-b4b920145/), [**Chenhui Liu**](https://github.com/iamshenkui), [**Ruoyu Wang**](https://github.com/ruoyuwangeel4930), [**Chen Feng**](https://engineering.nyu.edu/faculty/chen-feng)
+[**Wenyu Han***](https://github.com/WenyuHan-LiNa), [**Siyuan Xiang***](https://www.linkedin.com/in/%E6%80%9D%E8%BF%9C-%E9%A1%B9-b4b920145/), [**Chenhui Liu**](https://github.com/iamshenkui), [**Ruoyu Wang**](https://github.com/ruoyuwangeel4930), [**Chen Feng**](https://engineering.nyu.edu/faculty/chen-feng)
 
 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) 2020
 
@@ -41,7 +41,7 @@ Wenyu Han, Siyuan Xiang, Chenhui Liu, Ruoyu Wang, and Chen Feng,
 The IEEE Conference on Computer Vision and Pattern Recognition (CVPR), June, 2020.
 ``` 
 
-### [Paper (arXiv)](https://github.com/ai4ce/SPARE3D/raw/master/docs/SPARE3D.pdf)
+### [Paper (arXiv)](https://arxiv.org/abs/2003.14034)
 To cite our paper:
 
 ```
