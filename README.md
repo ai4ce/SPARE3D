@@ -34,11 +34,11 @@ These commands will generate data in SVG format. We also provide a simple script
 python svg2png.py -f "a folder of SVG files" 
 ```
 ## Train
-You can simple train our baseline models using following commands: 
+You can simple train our baseline models as following commands: 
 ```bash
 python I2P.py --Training_dataroot "path to training dataset" --Validating_dataroot "path to validating dataset" --outf "folder to output log"
 ```
-
+You can use similar command to train all other baseline models listed in [Code](https://github.com/ai4ce/spare3d/Code) folder. 
 
 ### [Code (GitHub)](https://github.com/ai4ce/spare3d)
 ```
