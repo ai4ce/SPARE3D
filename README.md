@@ -22,6 +22,23 @@ Please feel free to report bugs or other problems to [the authors](https://ai4ce
 ## Requirements
 You can find all baseline models in the [Code](https://github.com/ai4ce/spare3d/Code) folder. All the baseline models are written for Python 3.7.4 and Pytorch 1.3.0 with CUDA enabled GPU. And the data generation code in [Data_generate_script](https://github.com/ai4ce/spare3d/Data_generate_script) folder. The dependencies Python packages: [Bagnet](https://github.com/wielandbrendel/bag-of-local-features-models), [Pythonocc](https://github.com/tpaviot/pythonocc-core), [cairosvg](https://cairosvg.org/documentation/) and [cv2](https://pypi.org/project/opencv-python/). 
 
+## Data generation
+You could directly download the dataset we generate for each task through [google drive link](https://drive.google.com/drive/folders/1Mi2KZyKAlUOGYRQTDz3E5nhiXY5GhUB2?usp=sharing). You can also generate more data by using the code we provide in [Data_generate_script](https://github.com/ai4ce/spare3d/Data_generate_script). Commands to create the data:
+```bash
+python P2I.py -pathread "a floder consists of Step files" -pathwrite "a output folder"
+python Three2I.py -pathread "a floder consists of Step files" -pathwrite "a output folder"
+python I2P.py -pathread "a floder consists of Step files" -pathwrite "a output folder"
+```
+These commands will generate data in SVG format. We also provide a simple script to convert SVG to PNG format if you need (Notice: This code will delete the svg files after converting. If you need original SVG files, please make a copy before you use this script).  
+```bash
+python svg2png.py -f "a folder of SVG files" 
+```
+## Train
+You can simple train our baseline models using following commands: 
+```bash
+python I2P.py --Training_dataroot "path to training dataset" --Validating_dataroot "path to validating dataset" --outf "folder to output log"
+```
+
 
 ### [Code (GitHub)](https://github.com/ai4ce/spare3d)
 ```
