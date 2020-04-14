@@ -5,17 +5,12 @@ import torch.nn as nn
 import torch
 import glob
 from PIL import Image
-
 import os
 import torch
-from skimage import io, transform
 import numpy as np
-import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms, utils
 import cv2
 import time
-from matplotlib import pyplot as plt  
 import bagnets.pytorchnet
 
 
