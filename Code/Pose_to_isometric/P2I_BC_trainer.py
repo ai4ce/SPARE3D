@@ -49,7 +49,7 @@ def train_model():
         y_3 = task_5_model(input_3.float(),view_vector.float())
         y_4 = task_5_model(input_4.float(),view_vector.float())
         Y=torch.cat((y_1,y_2,y_3,y_4),axis=1)
-       # output=nn.functional.softmax(Y,dim=1)
+       
         loss = criterion(Y, Label.float())
         batch_loss += loss.item() * input_1.shape[0]
         batch_loss_list.append(loss.item()*input_1.shape[0]/len(train_data))
@@ -79,7 +79,7 @@ def Eval():
             y_3 = task_5_model(input_3.float(),view_vector.float())
             y_4 = task_5_model(input_4.float(),view_vector.float())
             Y=torch.cat((y_1,y_2,y_3,y_4),axis=1)
-          #  output=nn.functional.softmax(Y,dim=1)
+         
             loss = criterion(Y, Label.float())
             eval_loss += loss.item()* input_1.shape[0]
             eval_acc += (Y.argmax(1) == Label.argmax(1)).sum().item()
@@ -123,10 +123,7 @@ for epoch in range(N_EPOCHS):
     file.write(f'\tLoss: {valid_loss:.4f}(valid)\t|\tAcc: {valid_acc * 100:.1f}%(valid)\n')
     file.write("\n")
     file.flush()
-    # print(" | time in %d minutes, %d seconds\n" %(mins, secs))
-    # print(f'\tLoss: {train_loss:.4f}(train)\t|\tAcc: {train_acc * 100:.1f}%(train)\n')
-    # print(f'\tLoss: {valid_loss:.4f}(valid)\t|\tAcc: {valid_acc * 100:.1f}%(valid)\n')
-    # print("\n")
+ 
 
 file.close()
 batch_loss_history=np.array(batch_loss_history)
