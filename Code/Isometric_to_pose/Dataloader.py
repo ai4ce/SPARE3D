@@ -2,8 +2,7 @@ from __future__ import print_function, division
 
 import torch
 import glob
-from torch.utils.data import Dataset, DataLoader
-import os
+from torch.utils.data import Dataset
 import cv2
 
 class I2P_data(Dataset):
