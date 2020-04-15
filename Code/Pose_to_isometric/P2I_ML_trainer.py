@@ -141,11 +141,7 @@ for epoch in range(N_EPOCHS):
     file.write(f'\tLoss: {valid_loss:.4f}(valid)\t|\tAcc: {valid_acc * 100:.1f}%(valid)\n')
     file.write("\n")
     file.flush()
-    # print(" | time in %d minutes, %d seconds\n" %(mins, secs))
-    # print(f'\tLoss: {train_loss:.4f}(train)\t|\tAcc: {train_acc * 100:.1f}%(train)\n')
-    # print(f'\tLoss: {valid_loss:.4f}(valid)\t|\tAcc: {valid_acc * 100:.1f}%(valid)\n')
-    # print("\n")
-
+   
 file.close()
 batch_loss_history=np.array(batch_loss_history)
 batch_loss_history=np.concatenate(batch_loss_history,axis=0)
