@@ -1,16 +1,10 @@
 from __future__ import print_function, division
 
-from torchvision import datasets, models, transforms
+from torchvision import models
 import torch.nn as nn
 import torch
-import glob
-from PIL import Image
 import os
-import torch
 import numpy as np
-from torch.utils.data import Dataset, DataLoader
-import cv2
-import time
 import bagnets.pytorchnet
 
 
