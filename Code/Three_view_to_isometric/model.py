@@ -3,12 +3,7 @@ from __future__ import print_function, division
 from torchvision import models
 import torch.nn as nn
 import torch
-import glob
-import os
-import torch
 import numpy as np
-import time
-
 import bagnets.pytorchnet
 
 
