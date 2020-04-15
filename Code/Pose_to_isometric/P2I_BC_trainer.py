@@ -4,7 +4,6 @@ import torch.nn as nn
 import torch
 import argparse
 import os
-import torch
 import numpy as np
 import time
 from model import *
