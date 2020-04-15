@@ -2,10 +2,8 @@ from __future__ import print_function, division
 
 import torch.nn as nn
 import torch
-import glob
 import argparse
 import os
-import torch
 import numpy as np
 import time
 from model import ThreeV2I_BC
