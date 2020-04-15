@@ -1,11 +1,8 @@
 from __future__ import print_function, division
 
-import torch.nn as nn
 import torch
-import glob
 import argparse
 import os
-import torch
 import numpy as np
 import time
 from model import *
@@ -57,9 +54,7 @@ def train_model():
             Index=list(range(4))
             index=Label[i].item()
             Index.remove(index)
-           # loss_1=criterion(torch.take(Y[i], torch.LongTensor([index])),torch.take(Y[i], torch.LongTensor([Index[0]])),torch.tensor([1]))
-          #  loss_2=criterion(torch.take(Y[i], torch.LongTensor([index])),torch.take(Y[i], torch.LongTensor([Index[1]])),torch.tensor([1]))
-           # loss_3=criterion(torch.take(Y[i], torch.LongTensor([index])),torch.take(Y[i], torch.LongTensor([Index[2]])),torch.tensor([1]))
+         
             loss_1=criterion(Y[i][index].reshape(1),Y[i][Index[0]].reshape(1),torch.tensor([-1]).to(device))
             loss_2=criterion(Y[i][index].reshape(1),Y[i][Index[1]].reshape(1),torch.tensor([-1]).to(device))
             loss_3=criterion(Y[i][index].reshape(1),Y[i][Index[2]].reshape(1),torch.tensor([-1]).to(device))
@@ -101,9 +96,7 @@ def Eval():
                 Index=list(range(4))
                 index=Label[i].item()
                 Index.remove(index)
-               # loss_1=criterion(torch.take(Y[i], torch.LongTensor([index])),torch.take(Y[i], torch.LongTensor([Index[0]])),torch.tensor([1]))
-              #  loss_2=criterion(torch.take(Y[i], torch.LongTensor([index])),torch.take(Y[i], torch.LongTensor([Index[1]])),torch.tensor([1]))
-               # loss_3=criterion(torch.take(Y[i], torch.LongTensor([index])),torch.take(Y[i], torch.LongTensor([Index[2]])),torch.tensor([1]))
+           
                 loss_1=criterion(Y[i][index].reshape(1),Y[i][Index[0]].reshape(1),torch.tensor([-1]).to(device))
                 loss_2=criterion(Y[i][index].reshape(1),Y[i][Index[1]].reshape(1),torch.tensor([-1]).to(device))
                 loss_3=criterion(Y[i][index].reshape(1),Y[i][Index[2]].reshape(1),torch.tensor([-1]).to(device))
@@ -150,11 +143,6 @@ for epoch in range(N_EPOCHS):
     file.write(f'\tLoss: {valid_loss:.4f}(valid)\t|\tAcc: {valid_acc * 100:.1f}%(valid)\n')
     file.write("\n")
     file.flush()
-    # print(" | time in %d minutes, %d seconds\n" %(mins, secs))
-    # print(f'\tLoss: {train_loss:.4f}(train)\t|\tAcc: {train_acc * 100:.1f}%(train)\n')
-    # print(f'\tLoss: {valid_loss:.4f}(valid)\t|\tAcc: {valid_acc * 100:.1f}%(valid)\n')
-    # print("\n")
-
 file.close()
 batch_loss_history=np.array(batch_loss_history)
 batch_loss_history=np.concatenate(batch_loss_history,axis=0)
