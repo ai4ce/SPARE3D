@@ -2,7 +2,7 @@ from __future__ import print_function, division
 
 import torch
 import glob
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
 import os
 import numpy as np
 import cv2
