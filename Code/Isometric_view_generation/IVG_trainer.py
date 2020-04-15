@@ -12,12 +12,7 @@ cudnn.fastest = True
 import torch.optim as optim
 import torchvision.utils as vutils
 from torch.autograd import Variable
-from torch.utils.data import Dataset, DataLoader
-
-import glob
-
 import numpy as np
-import cv2
 from model import *
 from Dataloader import *
 
