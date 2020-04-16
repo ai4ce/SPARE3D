@@ -54,7 +54,6 @@ def main(args):
     answer_name = np.arange(len(dirs))
     np.random.shuffle(answer_name)
     label = answer_name % 4
-    # import pdb; pdb.set_trace()
 
     f = partial(generate_iso2pose, args=args)
     t0 = time.time()
