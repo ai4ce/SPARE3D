@@ -11,19 +11,12 @@ from multiprocessing import pool, cpu_count
 from model2svg import *
 from gevent import Timeout
 
-
+labels = {0:'frt1', 1:'frt2', 2:'frt5', 3:'frt6'}
 def generate_iso2pose(folder_name, label, args):
     outdir = os.path.join(args.output_file, folder_name)
     if not os.path.exists(outdir):
         os.mkdir(outdir)
-    if label == 0:
-        vps = 'frt1'
-    if label == 1:
-        vps = 'frt2'
-    if label == 2:
-        vps = 'frt5'
-    if label == 3:
-        vps = 'frt6'
+    vps = labels[label]
     print('vps: ', vps)
     converter = Model2SVG(width=args.width, height=args.height, tol=args.tol,
                       margin_left=args.margin_left, margin_top=args.margin_top,
