@@ -5,13 +5,7 @@ from torch.utils.data import DataLoader
 from data_collect import Task_6_dataset
 import argparse
 import glog as logger
-import othernet
-# from othernet import ChamfersDistance3
-import net
-from othernet import ChamfersDistance3
-from chamfer_distance import ChamferDistance
-#from pytorch3d.loss import chamfer_distance
-# from chamfer_distance import ChamferDistance
+from resfoldnet import *
 
 # parser = argparse.ArgumentParser(description='train res-folding net')
 # parser.add_argument('datapath', metavar='DATA_PATH', type=str, help='path to data')
@@ -25,25 +19,18 @@ from chamfer_distance import ChamferDistance
 # parser.add_argument('--res', action='store_true', default=False)
 # parser.add_argument('--pro', action='store_true', default=False)
 # args = parser.parse_args()
-def cd(x, y):
-       # x = x.permute(0, 2, 1)
-        #y = y.permute(0, 2, 1)
-        d1, d2 = ChamferDistance()(x, y)
-        loss=torch.sum(d1, dim=1) + torch.sum(d2, dim=1)
-        print(loss)
-        return torch.mean(loss,dim=0)
 
 # if not os.path.exists(args.datapath):
 #     logger.error('Data %s is not found.' % args.datapath)
 #     exit(1)
+
+chamfer_loss = ChamfersDistance()
 
 outputpath="./log_128_0.005"
 if not os.path.exists(outputpath):
     os.mkdir(outputpath)
     os.mkdir(outputpath + '/model')
     os.mkdir(outputpath +'/loss')
-#chamfer_loss = chamfer_distance
-chamfer_loss = ChamfersDistance3().to("cuda:2")
 
 def train(dataset, model, batch_size, lr, epochs,device,outputpath):
     """train res-fold net
@@ -62,9 +49,7 @@ def train(dataset, model, batch_size, lr, epochs,device,outputpath):
             pcd = batch['pcd'].type(torch.FloatTensor).to(device)
             img = img.permute(0, 3, 1, 2).to(device) #batch size, image channel, image height, image width
             pcd_pred = model(img)
-          
             loss = chamfer_loss(pcd_pred, pcd)
-            
             loss.backward()
             opt.step()
             iters += 1
@@ -87,6 +72,6 @@ if __name__ == '__main__':
     grid = torch.stack((v, v, w), 1)   
     
     grid = torch.FloatTensor(grid).to(device)
-    resfoldnet = net.resnetfoldbaymax(grid, dim=128, res=False)
+    resfoldnet = resnetfold(grid, dim=128, res=False)
 
     ret = train(dataset, resfoldnet, 2, 5e-3, 100,device,outputpath)
