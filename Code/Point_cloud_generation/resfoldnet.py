@@ -151,7 +151,7 @@ class ResFoldNetOneForAll(nn.Module):
         return f
 
 
-def resnetfold(grid, dim=512, res=False, input_channels=9):
+def resfold(grid, dim=512, res=False, input_channels=9):
     return ResFoldNetOneForAll(dim, (3, 32, dim), (dim, dim, dim, 3), grid, input_channels=input_channels, res=res)
 
 

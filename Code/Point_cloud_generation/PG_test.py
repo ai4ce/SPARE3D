@@ -5,9 +5,7 @@ from torch.utils.data import DataLoader
 from data_collect import Task_6_dataset
 import argparse
 import glog as logger
-import othernet
-from othernet import ChamfersDistance3
-import net
+from resfoldnet import *
 import numpy as np
 
 # parser = argparse.ArgumentParser(description='train res-folding net')
@@ -81,7 +79,7 @@ def main():
     w = torch.zeros(10000, dtype=torch.float32)
     grid = torch.stack((u, v, w), 1)
     grid = torch.FloatTensor(grid).cuda()
-    model = net.resnetfoldbaymax(grid, dim=512)
+    model = resfold(grid, dim=512)
     N = 0
     print(model.parameters())
     # for p in model.parameters():

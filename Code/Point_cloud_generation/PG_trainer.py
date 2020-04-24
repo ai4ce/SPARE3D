@@ -72,6 +72,6 @@ if __name__ == '__main__':
     grid = torch.stack((v, v, w), 1)   
     
     grid = torch.FloatTensor(grid).to(device)
-    resfoldnet = resnetfold(grid, dim=128, res=False)
+    resfoldnet = resnfold(grid, dim=128, res=False)
 
     ret = train(dataset, resfoldnet, 2, 5e-3, 100,device,outputpath)
