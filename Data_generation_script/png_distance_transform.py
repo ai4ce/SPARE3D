@@ -25,7 +25,7 @@ def svg2png_transparent_background(svg_name, args):
             )
     os.remove(svg_name)
 
-def transparent_background2white(png_name):
+def distance_trans(png_name):
     threshold = 200
     im = Image.open(png_name)
 
@@ -47,15 +47,9 @@ def transparent_background2white(png_name):
 def main(args):
     all_png = glob.iglob(os.path.join(args.file, "**", "*.png"), recursive=True)
     p = pool.Pool(processes=args.n_cores)
-    p.map(transparent_background2white, all_png)
+    p.map(distance_trans, all_png)
     p.close()
     p.join()
-    # for svg in all_svg:
-    #     # import pdb;pdb.set_trace()
-    #     svg2png_transparent_background(svg, args)
-
-    # for png in all_png:
-    #     transparent_background2white(png)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(sys.argv[0])
