@@ -13,17 +13,17 @@ import mahotas
 from multiprocessing import pool, cpu_count
 from functools import partial
 
-def svg2png_transparent_background(svg_name, args):
+# def svg2png_transparent_background(svg_name, args):
 
-    png_name = svg_name.replace(".svg", '.png') 
+#     png_name = svg_name.replace(".svg", '.png') 
 
-    with open(svg_name, 'rb') as svg_file:
-        PNGSurface.convert(
-            bytestring=svg_file.read(),
-            write_to=open(png_name, 'wb'),
+#     with open(svg_name, 'rb') as svg_file:
+#         PNGSurface.convert(
+#             bytestring=svg_file.read(),
+#             write_to=open(png_name, 'wb'),
             
-            )
-    os.remove(svg_name)
+#             )
+#     os.remove(svg_name)
 
 def distance_trans(png_name):
     threshold = 200
