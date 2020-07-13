@@ -2,6 +2,7 @@ import argparse
 import os
 import glob
 import sys
+import cairosvg
 from PIL import Image
 from cairosvg.surface import PNGSurface
 
@@ -13,13 +14,13 @@ from functools import partial
 def svg2png_transparent_background(svg_name, args):
     # import pdb;pdb.set_trace()
 
-    png_name = svg_name.replace(".svg", '.png')
+    png_name = svg_name.replace(".svg", '.png') 
+
     with open(svg_name, 'rb') as svg_file:
         PNGSurface.convert(
             bytestring=svg_file.read(),
             write_to=open(png_name, 'wb'),
-            output_width=int(args.width),
-            output_height=int(args.height),
+            
             )
     os.remove(svg_name)
 
@@ -61,9 +62,9 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(sys.argv[0])
-    parser.add_argument('-f','--file',type=str,help='file or folder with svg files.')
-    parser.add_argument('-W','--width',type=int,default=180,help='svg width.')
-    parser.add_argument('-H','--height',type=int,default=180,help='svg height.')
+    parser.add_argument('-f','--file',type=str,default='/home/siyuan/project/yfx/SPARE3D/Data_generate_script/csg_out', help='file or folder with svg files.')
+    parser.add_argument('-W','--width',type=int,default=200,help='svg width.')
+    parser.add_argument('-H','--height',type=int,default=200,help='svg height.')
     parser.add_argument('-n','--n_cores',type=int,default=cpu_count(),help='number of processors.')
     args = parser.parse_args(sys.argv[1:])
     main(args)

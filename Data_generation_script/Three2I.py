@@ -12,16 +12,16 @@ from gevent import Timeout
 from gevent import monkey
 parser = argparse.ArgumentParser()
 
-parser.add_argument('-pathread',type=str,help='file or folder to be processed.')
-parser.add_argument('-pathwrite',type=str,help='file or folder to write.')
+parser.add_argument('-pathread',type=str,default = '/home/siyuan/project/yfx/SPARE3D/Data_generate_script/csg_model', help='file or folder to be processed.')
+parser.add_argument('-pathwrite',type=str,default = '/home/siyuan/project/yfx/SPARE3D/Data_generate_script/csg_out', help='file or folder to write.')
 parser.add_argument('-n','--n_cores',type=int,default=cpu_count(),help='number of processors.')
-parser.add_argument('-W','--width',type=str,default="75mm",help='svg width.')
-parser.add_argument('-H','--height',type=str,default="75mm",help='svg height.')
+parser.add_argument('-W','--width',type=int,default=200,help='svg width.')
+parser.add_argument('-H','--height',type=int,default=200,help='svg height.')
 parser.add_argument('-t','--tol',type=float,default=0.04,help='svg discretization tolerance.')
 parser.add_argument('-ml','--margin_left',type=int,default=1,help='svg left margin.')
 parser.add_argument('-mt','--margin_top',type=int,default=1,help='svg top margin.')
-parser.add_argument('-lw','--line_width',type=str,default='0.7',help='svg line width.')
-parser.add_argument('-lwh','--line_width_hidden',type=str,default='0.35',help='svg hidden line width.')
+parser.add_argument('-lw','--line_width',type=float,default=0.7,help='svg line width.')
+parser.add_argument('-lwh','--line_width_hidden',type=float,default=0.35,help='svg hidden line width.')
 
 
 args = parser.parse_args()
@@ -73,7 +73,7 @@ def Generate_task(fname,answer_dic=answer,Path_output=pathwrite,args=args):
 
 	# model_number=path_list[2]
 
-	model_number=path_list[2].replace(".step","")
+	model_number=path_list[-1].replace(".step","")
 
 	MotherDic = Path_output + "/"+model_number+"/"
 	
@@ -88,26 +88,22 @@ def Generate_task(fname,answer_dic=answer,Path_output=pathwrite,args=args):
 		timeout.start()
 		shp = read_step_file(fname)
 		boundbox = get_boundingbox(shp,use_mesh=False)
-		sc=49/(max(boundbox[6],boundbox[7],boundbox[8]))
-		
+		max_3d_eadge = max(boundbox[6],boundbox[7],boundbox[8])
+
 		#### generate F R T views 
 		simple_shp_1=New_shp(boundbox[0],boundbox[1],boundbox[2],boundbox[3],boundbox[4],boundbox[5],boundbox[6],boundbox[7],boundbox[8])
 		shp_1=BRepAlgoAPI_Cut(shp,simple_shp_1).Shape()
 		for vp in viewpoints:
-			converter.export_shape_to_svg(shape=shp_1, filename=MotherDic+model_number+"_"+vp+".svg", proj_ax=converter.DIRS[vp],scale=sc)
+			converter.export_shape_to_svg(shape=shp_1, filename=MotherDic+model_number+"_"+vp+".svg", proj_ax=converter.DIRS[vp], max_eadge = max_3d_eadge)
 		
-        #### generate correct answer 
+        #### generate correct answer 		
+		converter.export_shape_to_svg(shape=shp_1, filename=MotherDic+answer_dic[model_number]+".svg", proj_ax=converter.DIRS["2"], max_eadge = max_3d_eadge)
 		
-		converter.export_shape_to_svg(shape=shp_1, filename=MotherDic+answer_dic[model_number]+".svg", proj_ax=converter.DIRS["2"],scale=sc)
-		
-         
-
         ###  generate wrong answers  
-
 		for item in answer_number:
 			simple_shp_2=New_shp(boundbox[0],boundbox[1],boundbox[2],boundbox[3],boundbox[4],boundbox[5],boundbox[6],boundbox[7],boundbox[8])
 			shp_2=BRepAlgoAPI_Cut(shp,simple_shp_2).Shape()
-			converter.export_shape_to_svg(shape=shp_2, filename=MotherDic+item+".svg", proj_ax=converter.DIRS["2"],scale=sc)
+			converter.export_shape_to_svg(shape=shp_2, filename=MotherDic+item+".svg", proj_ax=converter.DIRS["2"], max_eadge = max_3d_eadge)
 		return 1
 	except Exception as re:
 		shutil.rmtree(MotherDic)

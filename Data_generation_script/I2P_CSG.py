@@ -10,6 +10,7 @@ from functools import partial
 from multiprocessing import pool, cpu_count
 from model2svg import *
 from gevent import Timeout
+from boolean import get_boundingbox
 
 labels = {0:'frt1', 1:'frt2', 2:'frt5', 3:'frt6'}
 def generate_iso2pose(folder_name, label, args):
@@ -26,16 +27,26 @@ def generate_iso2pose(folder_name, label, args):
         seconds = 10  # the worker can run 60 seconds. 
         timeout = Timeout(seconds) 
         timeout.start()
-        fname = glob.glob(os.path.join(args.file, folder_name, '*.step'))[0]
+        fname = os.path.join(args.file, folder_name + '.step')
         shp = read_step_file(fname)
+
+
+
+        boundbox = get_boundingbox(shp)#3D- return xmax, xmin, ymax, ymin, zmax, zmin, abs(xmax-xmin), abs(ymax-ymin), abs(zmax-zmin)
+        max_3d_eadge = max(boundbox[6],boundbox[7],boundbox[8])
+        # print('max_3d_eadge is ', max_3d_eadge)
+        sc=min(args.width, args.height)/max_3d_eadge
+        # print('scale is', sc)
+
+
         for vp in vps[:-1]:
             fname_out = os.path.join(outdir, '{}_{}.svg'.format(folder_name, vp))
-            converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vp])
+            converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vp], scale=sc, max_eadge = max_3d_eadge)
 
         # generate answer
         fname_out = os.path.join(outdir, 'answer.svg')
         print("vp-1:", vps[-1])
-        converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vps[-1]])
+        converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vps[-1]], scale=sc, max_eadge = max_3d_eadge)
         return True
     
     except Exception as re:
@@ -50,7 +61,8 @@ def main(args):
     """
     if not os.path.exists(args.output_file):
         os.mkdir(args.output_file)
-    dirs = sorted(os.listdir(args.file))
+    dirs_with_suffix = sorted(os.listdir(args.file))
+    dirs = list(map(lambda x: x.replace('.step', ''), dirs_with_suffix))
     answer_name = np.arange(len(dirs))
     np.random.shuffle(answer_name)
     label = answer_name % 4
@@ -75,8 +87,8 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(sys.argv[0])
-    parser.add_argument('-f','--file',type=str,help='file or folder to be processed.')
-    parser.add_argument('-o','--output_file',type=str,help='file or folder to save.')
+    parser.add_argument('-f','--file', type=str, default = '/home/siyuan/project/yfx/SPARE3D/Data_generate_script/csg_model', help='file or folder to be processed.')
+    parser.add_argument('-o','--output_file',type=str, default = '/home/siyuan/project/yfx/SPARE3D/Data_generate_script/csg_out', help='file or folder to save.')
     parser.add_argument('-v','--vps',type=str,default='ftr12345678',help='viewpoint(s) per file.')
     parser.add_argument('-n','--n_cores',type=int,default=cpu_count(),help='number of processors.')
     parser.add_argument('-W','--width',type=int,default=200,help='svg width.')
@@ -84,8 +96,8 @@ if __name__ == '__main__':
     parser.add_argument('-t','--tol',type=float,default=0.04,help='svg discretization tolerance.')
     parser.add_argument('-ml','--margin_left',type=int,default=1,help='svg left margin.')
     parser.add_argument('-mt','--margin_top',type=int,default=1,help='svg top margin.')
-    parser.add_argument('-lw','--line_width',type=float,default='0.7',help='svg line width.')
-    parser.add_argument('-lwh','--line_width_hidden',type=float,default='0.35',help='svg hidden line width.')
+    parser.add_argument('-lw','--line_width',type=float,default=0.7,help='svg line width.')
+    parser.add_argument('-lwh','--line_width_hidden',type=float,default=0.35,help='svg hidden line width.')
 
     args = parser.parse_args(sys.argv[1:])
     main(args)
