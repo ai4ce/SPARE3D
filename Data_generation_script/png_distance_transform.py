@@ -36,7 +36,6 @@ def distance_trans(png_name):
     # print(data.dtype)
     new_data = np.reshape(data, (height, width))
     new_data_binary = np.where(new_data > threshold , True, False)
-    np.save("021.npy", new_data_binary)
 
     dmap = mahotas.distance(new_data_binary)
     new_im = Image.fromarray(dmap)
