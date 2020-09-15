@@ -1,3 +1,4 @@
+
 # SPARE3D: A Dataset for SPAtial REasoning on Three-View Line Drawings
 
 [**Wenyu Han***](https://github.com/WenyuHan-LiNa), [**Siyuan Xiang***](https://www.linkedin.com/in/%E6%80%9D%E8%BF%9C-%E9%A1%B9-b4b920145/), [**Chenhui Liu**](https://github.com/iamshenkui), [**Ruoyu Wang**](https://github.com/ruoyuwangeel4930), [**Chen Feng**](https://engineering.nyu.edu/faculty/chen-feng)
@@ -7,40 +8,38 @@ IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) 2020
 [New York University Tandon School of Engineering](https://ai4ce.github.io)
 
 
-### Abstract
-Spatial reasoning is an important component of human intelligence. We can imagine the shapes of 3D objects and reason about their spatial relations by merely looking at their three-view line drawings in 2D, with different levels of competence. Can deep networks be trained to perform spatial reasoning tasks? How can we measure their "spatial intelligence"? To answer these questions, we present the SPARE3D dataset. Based on cognitive science and psychometrics, SPARE3D contains three types of 2D-3D reasoning tasks on view consistency, camera pose, and shape generation, with increasing difficulty. We then design a method to automatically generate a large number of challenging questions with ground truth answers for each task. They are used to provide supervision for training our baseline models using state-of-the-art architectures like ResNet. Our experiments show that although convolutional networks have achieved superhuman performance in many visual learning tasks, their spatial reasoning performance in SPARE3D is almost equal to random guesses. We hope SPARE3D can stimulate new problem formulations and network designs for spatial reasoning to empower intelligent robots to operate effectively in the 3D world via 2D sensors.
+## Abstract
+Spatial reasoning is an important component of human intelligence. We can imagine the shapes of 3D objects and reason about their spatial relations by merely looking at their three-view line drawings in 2D, with different levels of competence. Can deep networks be trained to perform spatial reasoning tasks? How can we measure their "spatial intelligence"? To answer these questions, we present the SPARE3D dataset. Based on cognitive science and psychometrics, SPARE3D contains three types of 2D-3D reasoning tasks on view consistency, camera pose, and shape generation, with increasing difficulty. We then design a method to automatically generate a large number of challenging questions with ground truth answers for each task. They are used to provide supervision for training our baseline models using state-of-the-art architectures like ResNet. Our experiments show that although convolutional networks have achieved superhuman performance in many visual learning tasks, their spatial reasoning performance on SPARE3D tasks is either lower than average human performance or even close to random guesses. We hope SPARE3D can stimulate new problem formulations and network designs for spatial reasoning to empower intelligent robots to operate effectively in the 3D world via 2D sensors.
 
-### Dataset
+## Dataset
 You can download the dataset via [our google drive link](https://drive.google.com/drive/folders/1Mi2KZyKAlUOGYRQTDz3E5nhiXY5GhUB2?usp=sharing). This google drive folder contains three zip files: 
 1. Task_data.zip is for training baseline;
 2. CSG_model_step.zip contains 11149 CSG models;
 3. Total_view_data contains view drawings of all ABC and CSG models from 11 pose we define in the paper.
 
-Please feel free to report bugs or other problems to [the authors](https://ai4ce.github.io).
+### **Changes after CVPR'20**
+In our follow-up work led by *Siyuan Xiang, Anbang Yang, and Yanfei Xue* after CVPR'20, we found **outliers in our previous dataset**. We **remove the ourliers and modify the dataset** and the paper accordingly (highlighted in blue), although **the main conclusions are not changed**. We added the same number of questions that was removed due to outliers, ensuring the total number of questions in the dataset remain the same as in the original paper. 
+
+**The changes we made to the dataset are detailed as follows**:
+- For *3-view to Isometric* task, we removed:
+  - 6.2% questions whose line drawings contains extremely thick or thin lines
+  -  6.8% questions with the same line drawing in different candidate answers
+  - 1% questions that are generated from the same CAD models
+
+- For *Isometric to Pose* task, we removed:
+  - 25% questions that are generated from symmetric CAD models, which will cause pose ambiguity	
+  - 2.5% questions which contain blank line drawings
 
 
-## Requirements
-You can find all baseline models in the [Code](https://github.com/ai4ce/spare3d/Code) folder. All the baseline models are written for Python 3.7.4 and Pytorch 1.3.0 with CUDA enabled GPU. And the data generation code in [Data_generate_script](https://github.com/ai4ce/spare3d/Data_generate_script) folder. The dependencies Python packages: [Bagnet](https://github.com/wielandbrendel/bag-of-local-features-models), [Pythonocc](https://github.com/tpaviot/pythonocc-core), [cairosvg](https://cairosvg.org/documentation/) and [cv2](https://pypi.org/project/opencv-python/). 
+Please feel free to report bugs or other problems to us by raising new issues in this project's GitHub repository.
 
-## Data generation
-You could directly download the dataset we generate for each task through [google drive link](https://drive.google.com/drive/folders/1Mi2KZyKAlUOGYRQTDz3E5nhiXY5GhUB2?usp=sharing). You can also generate more data by using the code we provide in [Data_generate_script](https://github.com/ai4ce/spare3d/Data_generate_script). Commands to create the data:
-```bash
-python P2I.py -pathread "a floder consists of Step files" -pathwrite "a output folder"
-python Three2I.py -pathread "a floder consists of Step files" -pathwrite "a output folder"
-python I2P.py -pathread "a floder consists of Step files" -pathwrite "a output folder"
-```
-These commands will generate data in SVG format. We also provide a simple script to convert SVG to PNG format if you need (Notice: This code will delete the svg files after converting. If you need original SVG files, please make a copy before you use this script).  
-```bash
-python svg2png.py -f "a folder of SVG files" 
-```
-## Train
-You can simple train our baseline models as following commands: 
-```bash
-python I2P.py --Training_dataroot "path to training dataset" --Validating_dataroot "path to validating dataset" --outf "folder to output log"
-```
-You can use similar command to train all other baseline models listed in [Code](https://github.com/ai4ce/spare3d/Code) folder. 
 
-### [Code (GitHub)](https://github.com/ai4ce/spare3d)
+## [Code (GitHub)](https://github.com/ai4ce/spare3d) & Dependencies
+You can find all baseline models in the [Code](https://github.com/ai4ce/spare3d/Code) folder.
+All the baseline models were written for Python 3.7.4 and Pytorch 1.3.0 with CUDA enabled GPU.
+And the data generation code in [Data_generate_script](https://github.com/ai4ce/spare3d/Data_generate_script) folder. 
+The code depends on the following Python packages: [Bagnet](https://github.com/wielandbrendel/bag-of-local-features-models), [Pythonocc](https://github.com/tpaviot/pythonocc-core), [cairosvg](https://cairosvg.org/documentation/) and [cv2](https://pypi.org/project/opencv-python/). 
+
 ```
 The code is copyrighted by the authors. Permission to copy and use 
  this software for noncommercial use is hereby granted provided: (a)
@@ -60,20 +59,38 @@ Wenyu Han, Siyuan Xiang, Chenhui Liu, Ruoyu Wang, and Chen Feng,
 The IEEE Conference on Computer Vision and Pattern Recognition (CVPR), June, 2020.
 ``` 
 
-### [Paper (arXiv)](https://arxiv.org/abs/2003.14034)
-To cite our paper:
-
+## Data generation
+You could directly download the dataset we generate for each task through [google drive link](https://drive.google.com/drive/folders/1Mi2KZyKAlUOGYRQTDz3E5nhiXY5GhUB2?usp=sharing). You can also generate more data by using the code we provide in [Data_generate_script](https://github.com/ai4ce/spare3d/Data_generate_script). Commands to create the data:
+```bash
+python P2I.py -pathread "a floder consists of Step files" -pathwrite "a output folder"
+python Three2I.py -pathread "a floder consists of Step files" -pathwrite "a output folder"
+python I2P.py -pathread "a floder consists of Step files" -pathwrite "a output folder"
 ```
-@InProceedings{SPARE3D_CVPR_2020,
-author = {Han, Wenyu and Xiang, Siyuan and Liu, Chenhui and Wang, Ruoyu and Feng, Chen},
-title = { {SPARE3D}: A Dataset for {SPA}tial {RE}asoning on Three-View Line Drawings},
-booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-month = {June},
-year = {2020}
+These commands will generate data in SVG format. We also provide a simple script to convert SVG to PNG format if you need (Notice: This code will delete the svg files after converting. If you need original SVG files, please make a copy before you use this script).  
+```bash
+python svg2png.py -f "a folder of SVG files" 
+```
+## Train
+You can simple train our baseline models as following commands: 
+```bash
+python I2P.py --Training_dataroot "path to training dataset" --Validating_dataroot "path to validating dataset" --outf "folder to output log"
+```
+You can use similar command to train all other baseline models listed in [Code](https://github.com/ai4ce/spare3d/Code) folder. 
+
+
+## [Paper (arXiv)](https://arxiv.org/abs/2003.14034)
+To cite our paper:
+```
+@inproceedings{SPARE3D_CVPR_2020,
+  title={SPARE3D: A Dataset for SPAtial REasoning on Three-View Line Drawings},
+  author={Han, Wenyu and Xiang, Siyuan and Liu, Chenhui and Wang, Ruoyu and Feng, Chen},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={14690--14699},
+  year={2020}
 }
 ```
 
-### Acknowledgment
+## Acknowledgment
 [**Wenyu Han**](https://github.com/WenyuHan-LiNa) and [**Siyuan Xiang**](https://www.linkedin.com/in/%E6%80%9D%E8%BF%9C-%E9%A1%B9-b4b920145/) contributed equally to the coding, data preprocessing/generation, paper writing, and experiments in this project. [**Chenhui Liu**](https://github.com/iamshenkui) contributed to the crowd-sourcing website and human performance data collection. [**Ruoyu Wang**](https://github.com/ruoyuwangeel4930) contributed to the experiments and paper writing. [**Chen Feng**](https://ai4ce.github.io) proposed the idea, initiated the project, and contributed to the coding and paper writing.
 
 The research is supported by [NSF CPS program under CMMI-1932187](https://nsf.gov/awardsearch/showAward?AWD_ID=1932187). Siyuan Xiang gratefully thanks the IDC Foundation for its scholarship. The authors gratefully thank our human test participants and the helpful comments from Zhaorong Wang, Zhiding Yu, Srikumar Ramalingam, and the anonymous reviewers.

@@ -2,6 +2,7 @@ import argparse
 import os
 import glob
 import sys
+import cairosvg
 from PIL import Image
 from cairosvg.surface import PNGSurface
 
@@ -62,8 +63,8 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(sys.argv[0])
     parser.add_argument('-f','--file',type=str,help='file or folder with svg files.')
-    parser.add_argument('-W','--width',type=int,default=180,help='svg width.')
-    parser.add_argument('-H','--height',type=int,default=180,help='svg height.')
+    parser.add_argument('-W','--width',type=int,default=200,help='svg width.')
+    parser.add_argument('-H','--height',type=int,default=200,help='svg height.')
     parser.add_argument('-n','--n_cores',type=int,default=cpu_count(),help='number of processors.')
     args = parser.parse_args(sys.argv[1:])
     main(args)

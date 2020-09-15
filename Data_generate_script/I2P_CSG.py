@@ -10,6 +10,7 @@ from functools import partial
 from multiprocessing import pool, cpu_count
 from model2svg import *
 from gevent import Timeout
+from boolean import get_boundingbox
 
 labels = {0:'frt1', 1:'frt2', 2:'frt5', 3:'frt6'}
 def generate_iso2pose(folder_name, label, args):
@@ -28,14 +29,18 @@ def generate_iso2pose(folder_name, label, args):
         timeout.start()
         fname = os.path.join(args.file, folder_name + '.step')
         shp = read_step_file(fname)
+
+        boundbox = get_boundingbox(shp)#3D- return xmax, xmin, ymax, ymin, zmax, zmin, abs(xmax-xmin), abs(ymax-ymin), abs(zmax-zmin)
+        max_3d_eadge = max(boundbox[6],boundbox[7],boundbox[8])
+        
         for vp in vps[:-1]:
             fname_out = os.path.join(outdir, '{}_{}.svg'.format(folder_name, vp))
-            converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vp])
+            converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vp], scale=sc, max_eadge = max_3d_eadge)
 
         # generate answer
         fname_out = os.path.join(outdir, 'answer.svg')
         print("vp-1:", vps[-1])
-        converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vps[-1]])
+        converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vps[-1]], scale=sc, max_eadge = max_3d_eadge)
         return True
     
     except Exception as re:
@@ -80,13 +85,13 @@ if __name__ == '__main__':
     parser.add_argument('-o','--output_file',type=str,help='file or folder to save.')
     parser.add_argument('-v','--vps',type=str,default='ftr12345678',help='viewpoint(s) per file.')
     parser.add_argument('-n','--n_cores',type=int,default=cpu_count(),help='number of processors.')
-    parser.add_argument('-W','--width',type=str,default='75mm',help='svg width.')
-    parser.add_argument('-H','--height',type=str,default='75mm',help='svg height.')
+    parser.add_argument('-W','--width',type=int,default=200,help='svg width.')
+    parser.add_argument('-H','--height',type=int,default=200,help='svg height.')
     parser.add_argument('-t','--tol',type=float,default=0.04,help='svg discretization tolerance.')
     parser.add_argument('-ml','--margin_left',type=int,default=1,help='svg left margin.')
     parser.add_argument('-mt','--margin_top',type=int,default=1,help='svg top margin.')
-    parser.add_argument('-lw','--line_width',type=str,default='0.7',help='svg line width.')
-    parser.add_argument('-lwh','--line_width_hidden',type=str,default='0.35',help='svg hidden line width.')
+    parser.add_argument('-lw','--line_width',type=float,default=0.7,help='svg line width.')
+    parser.add_argument('-lwh','--line_width_hidden',type=float,default=0.35,help='svg hidden line width.')
 
     args = parser.parse_args(sys.argv[1:])
     main(args)

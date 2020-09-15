@@ -2,14 +2,18 @@ import os
 import sys
 import argparse
 import random
+import time
 import shutil
 import json
 import numpy as np
 import glob 
 from functools import partial
 from multiprocessing import pool, cpu_count
-from model2svg import *
+from model2svg import Model2SVG
 from gevent import Timeout
+from OCC.Extend.DataExchange import read_step_file
+import pdb 
+from boolean import get_boundingbox
 
 labels = {0:'frt1', 1:'frt2', 2:'frt5', 3:'frt6'}
 def generate_iso2pose(folder_name, label, args):
@@ -28,14 +32,17 @@ def generate_iso2pose(folder_name, label, args):
         timeout.start()
         fname = glob.glob(os.path.join(args.file, folder_name, '*.step'))[0]
         shp = read_step_file(fname)
+        boundbox = get_boundingbox(shp)#3D- return xmax, xmin, ymax, ymin, zmax, zmin, abs(xmax-xmin), abs(ymax-ymin), abs(zmax-zmin)     
+        max_3d_eadge = max(boundbox[6],boundbox[7],boundbox[8])
+
         for vp in vps[:-1]:
             fname_out = os.path.join(outdir, '{}_{}.svg'.format(folder_name, vp))
-            converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vp])
+            converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vp], max_eadge = max_3d_eadge)
 
         # generate answer
         fname_out = os.path.join(outdir, 'answer.svg')
         print("vp-1:", vps[-1])
-        converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vps[-1]])
+        converter.export_shape_to_svg(shape=shp, filename=fname_out, proj_ax=converter.DIRS[vps[-1]], max_eadge = max_3d_eadge)        
         return True
     
     except Exception as re:

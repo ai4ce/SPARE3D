@@ -20,7 +20,7 @@ from OCC.Extend.TopologyUtils import (discretize_edge, TopologyExplorer)
 from OCC.Core.HLRBRep import HLRBRep_Algo, HLRBRep_HLRToShape
 from OCC.Core.HLRAlgo import HLRAlgo_Projector
 from OCC.Extend.DataExchange import read_step_file
-from boolean import *
+from boolean import get_boundingbox
 try:
     import svgwrite
     import svgwrite.shapes
@@ -159,14 +159,11 @@ class Model2SVG(object):
         return visible, hidden
 
 
-    def _edge_to_svg_polyline(self, topods_edge,scale):
+    def _edge_to_svg_polyline(self, topods_edge,scale=1):
         """ Returns a svgwrite.Path for the edge, and the 2d bounding box
         """
         unit = self.UNIT
         tol = self.TOL
-        unit_factor = scale  # by default
-
-        
 
         points_3d = discretize_edge(topods_edge, tol)
         points_2d = []
@@ -174,15 +171,16 @@ class Model2SVG(object):
 
         for point in points_3d:
             # we tak only the first 2 coordinates (x and y, leave z)
-            x_p = point[0] * unit_factor
-            y_p = - point[1] * unit_factor
+            x_p = point[0]
+            y_p = - point[1]
             box2d.Add(gp_Pnt2d(x_p, y_p))
             points_2d.append((x_p, y_p))
 
         return svgwrite.shapes.Polyline(points_2d, fill="none", class_='vectorEffectClass'), box2d
 
 
-    def export_shape_to_svg(self, shape, filename=None, proj_ax=gp_Ax2(), verbose=True,scale=1):
+    def export_shape_to_svg(self, shape, filename=None, proj_ax=gp_Ax2(), scale=1, 
+        verbose=True, max_eadge=1):
         """ export a single shape to an svg file and/or string.
         shape: the TopoDS_Shape to export
         filename (optional): if provided, save to an svg file
@@ -204,12 +202,12 @@ class Model2SVG(object):
         polylines = []
         polylines_hidden = []
         for visible_edge in visible_edges:
-            visible_svg_line, visible_edge_box2d = self._edge_to_svg_polyline(visible_edge,scale)
+            visible_svg_line, visible_edge_box2d = self._edge_to_svg_polyline(visible_edge)
             polylines.append(visible_svg_line)
             global_2d_bounding_box.Add(visible_edge_box2d)
         if self.EXPORT_HIDDEN_EDGES:
             for hidden_edge in hidden_edges:
-                hidden_svg_line, hidden_edge_box2d = self._edge_to_svg_polyline(hidden_edge,scale)
+                hidden_svg_line, hidden_edge_box2d = self._edge_to_svg_polyline(hidden_edge)
                 # # hidden lines are dashed style
                 # hidden_svg_line.dasharray([5, 5])
                 polylines_hidden.append(hidden_svg_line)
@@ -225,9 +223,21 @@ class Model2SVG(object):
         # build the svg drawing
         dwg = svgwrite.Drawing(filename, (self.WIDTH, self.HEIGHT), debug=True)
         # adjust the view box so that the lines fit then svg canvas
-        dwg.viewbox(x_min - self.MARGIN_LEFT, y_min - self.MARGIN_TOP,
-                    bb2d_width + 2 * self.MARGIN_LEFT, bb2d_height + 2 * self.MARGIN_TOP)
 
+        # for abc step file
+        # dwg.viewbox(
+        #     x_min - 1.4*max_eadge/2 + bb2d_width/2, 
+        #     y_min - 1.4*max_eadge/2 + bb2d_height/2,
+        #     1.4*max_eadge, 
+        #     1.4*max_eadge)
+
+        # for csg step file
+        dwg.viewbox(
+            x_min - 1.7*max_eadge/2 + bb2d_width/2, 
+            y_min - 1.7*max_eadge/2 + bb2d_height/2,
+            1.7*max_eadge, 
+            1.7*max_eadge)
+        
         # make sure line width stays constant
         # https://github.com/mozman/svgwrite/issues/38
         dwg.defs.add(dwg.style("""
@@ -259,20 +269,23 @@ class Model2SVG(object):
 
 
 def export_shape_to_svg_by_viewpoints(fname, viewpoints, args):
-	converter = Model2SVG(width=args.width, height=args.height, tol=args.tol,
+    converter = Model2SVG(width=args.width, height=args.height, tol=args.tol,
                           margin_left=args.margin_left, margin_top=args.margin_top,
                           line_width=args.line_width, line_width_hidden=args.line_width_hidden)
-	try:
-		shp = read_step_file(fname)
-		boundbox=get_boundingbox(shp)
-		sc=49/(max(boundbox[6],boundbox[7],boundbox[8]))
-		fname_out = os.path.splitext(fname)[0] + '_{}.svg'
-		for vp in viewpoints:
-			converter.export_shape_to_svg(shape=shp, filename=fname_out.format(vp), proj_ax=converter.DIRS[vp],scale=sc)
-		return 1
-	except Exception as re:
-		print(fname + ' failed, due to: {}'.format(re))
-		return 0
+    try:
+        shp = read_step_file(fname)
+        boundbox=get_boundingbox(shp)
+        max_3d_eadge = max(boundbox[6],boundbox[7],boundbox[8])
+        sc=min(args.width, args.height)/max_3d_eadge
+        fname_out = os.path.splitext(fname)[0] + '_{}.svg'
+
+        for vp in viewpoints:
+            converter.export_shape_to_svg(shape=shp, filename=fname_out.format(vp), proj_ax=converter.DIRS[vp], max_eadge = max_3d_eadge)
+        return 1
+        
+    except Exception as re:
+        print(fname + ' failed, due to: {}'.format(re))
+        return 0
 
 
 def main(args):
@@ -313,8 +326,8 @@ if __name__ == '__main__':
     parser.add_argument('file',type=str,help='file or folder to be processed.')
     parser.add_argument('-v','--vps',type=str,default='ftr12345678',help='viewpoint(s) per file.')
     parser.add_argument('-n','--n_cores',type=int,default=cpu_count(),help='number of processors.')
-    parser.add_argument('-W','--width',type=str,default="75mm",help='svg width.')
-    parser.add_argument('-H','--height',type=str,default="75mm",help='svg height.')
+    parser.add_argument('-W','--width',type=int,default=200,help='svg width.')
+    parser.add_argument('-H','--height',type=int,default=200,help='svg height.')
     parser.add_argument('-t','--tol',type=float,default=0.04,help='svg discretization tolerance.')
     parser.add_argument('-ml','--margin_left',type=int,default=1,help='svg left margin.')
     parser.add_argument('-mt','--margin_top',type=int,default=1,help='svg top margin.')
